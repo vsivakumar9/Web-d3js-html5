@@ -60,9 +60,9 @@ var chartGroup = svg.append("g")
       var leftAxis = d3.axisLeft(yLinearScale);
   
       // Scale the domain
-      xLinearScale.domain([7,
+      xLinearScale.domain([8,
           d3.max(brfssdata, function(data) {
-          return +data.poverty;
+          return +data.poverty * 1.05;
         }),
       ]);
 
@@ -77,7 +77,8 @@ var chartGroup = svg.append("g")
       var toolTip = d3
         .tip()
         .attr('class', 'tooltip')
-        .offset([80, -60])
+        .offset([60, 15])
+        //.offset([80, -60])
         .html(function(data) {
             var state = data.state;
             var poverty = +data.poverty;
@@ -101,13 +102,16 @@ var chartGroup = svg.append("g")
       .attr('cy', function(data, index) {
         return yLinearScale(data.healthcare);
       })
-      .attr('r', '17')
-      .attr('fill', 'lightblue')
-      .on('click', function(data) {
+      .attr('r', '16')
+      .attr('fill', 'lightgreen')
+      .attr('fill-opacity',0.6)
+      //.on('click', function(data) {
+      // Display tooltip on mouseover. 
+      .on("mouseover",function(data) {
         toolTip.show(data);
       })
       // Hide and Show on mouseout
-      .on('mouseout', function(data, index) {
+      .on("mouseout", function(data, index) {
         toolTip.hide(data);
       });
   
@@ -140,18 +144,19 @@ var chartGroup = svg.append("g")
         .attr('x', 0 - chartHeight / 2)
         .attr('dy', '1em')
         .attr('class', 'axisText')
-        .text('Lacks Healthcare (%)');
+        .text('No Healthcare (%)');
   
       // x-axis labels
       chartGroup
         .append('text')
         .attr(
           'transform',
-          'translate(' + chartWidth / 2 + ' ,' + (chartHeight + margin.top + 30) + ')',
+          'translate(' + chartWidth / 2 + ' ,' + (chartHeight + margin.top + 40) + ')',
         )
         .attr('class', 'axisText')
         .text('Poverty (%)');
 
+      //Need to add event listeners with transitions for obesity vs income. 
 
 
 })
